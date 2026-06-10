@@ -73,7 +73,7 @@ canvas {
   left: 0;
   right: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr 44px;
+  grid-template-columns: 1fr 1fr 1fr 44px;
   gap: 8px;
   align-items: center;
   padding: 12px;
@@ -99,9 +99,10 @@ canvas {
 .hud strong {
   display: block;
   margin-top: 2px;
-  font-size: 22px;
+  font-size: clamp(16px, 5vw, 22px);
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .icon-btn {
@@ -150,9 +151,19 @@ canvas {
 .panel button {
   min-height: 48px;
   border-radius: 8px;
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #ffe06f);
   color: #071311;
   font-weight: 800;
+}
+
+@media (max-width: 380px) {
+  .hud {
+    grid-template-columns: 1fr 1fr 44px;
+  }
+
+  .hud > div:nth-child(3) {
+    display: none;
+  }
 }
 
 @media (max-height: 650px) {

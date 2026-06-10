@@ -28,14 +28,24 @@
           <button id="pauseBtn" class="icon-btn" type="button" aria-label="暂停">Ⅱ</button>
         </div>
 
+        <button id="ultimateBtn" class="ultimate-btn" type="button" aria-label="释放大招">
+          <span>BOOM</span>
+          <strong id="ultimateText">0%</strong>
+        </button>
+
         <div id="panel" class="panel">
           <h1>星轨闪避</h1>
-          <p id="panelText">拖动飞船，收集不同火力核心，组合升级后击退小怪、陨石和进化 Boss。</p>
+          <p id="panelText">拖动飞船，最多叠 5 个火力核心，新核心会替换最早核心；攒满 BOOM 清屏打 Boss。</p>
+          <div class="difficulty" aria-label="难度选择">
+            <button class="difficulty-btn active" type="button" data-difficulty="easy">轻松</button>
+            <button class="difficulty-btn" type="button" data-difficulty="normal">刺激</button>
+            <button class="difficulty-btn" type="button" data-difficulty="hard">狂飙</button>
+          </div>
           <button id="startBtn" type="button">开始</button>
         </div>
       </section>
     </main>
 
-    <script src="game-v4.js"></script>
+    <script src="game-v5.js"></script>
   </body>
 </html>

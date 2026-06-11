@@ -1,0 +1,20 @@
+const $=id=>document.getElementById(id),lobby=$("lobby"),starGame=$("starGame"),mergeGame=$("mergeGame"),boardEl=$("mergeBoard"),scoreEl=$("mergeScore"),bestEl=$("mergeBest"),comboEl=$("mergeCombo"),maxEl=$("mergeMax"),hint=$("mergeHint"),panel=$("mergePanel"),startBtn=$("mergeStart"),restartBtn=$("mergeRestart");
+const key="neon-merge-best",N=6,colors=["#25e0b1","#53acff","#b987ff","#ffe06f","#ff8aa0","#ff4d6d"];
+const S={board:Array(N*N).fill(0),score:0,best:Number(localStorage.getItem(key)||0),combo:1,max:1,selected:-1,playing:false,dragFrom:-1};
+bestEl.textContent=S.best;buildBoard();showView("lobby");
+document.querySelectorAll("[data-open-game]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.openGame)));
+document.querySelectorAll("[data-back-lobby]").forEach(b=>b.addEventListener("click",()=>showView("lobby")));
+startBtn.addEventListener("click",start);restartBtn.addEventListener("click",start);
+function showView(v){lobby.classList.toggle("hidden",v!=="lobby");starGame.classList.toggle("hidden",v!=="star");mergeGame.classList.toggle("hidden",v!=="merge");document.querySelector(".shell").dataset.view=v;window.dispatchEvent(new Event("resize"))}
+function buildBoard(){boardEl.innerHTML="";for(let i=0;i<N*N;i++){const c=document.createElement("button");c.className="merge-cell";c.type="button";c.dataset.index=String(i);c.addEventListener("click",()=>tap(i));c.addEventListener("pointerdown",()=>{S.dragFrom=i});c.addEventListener("pointerup",()=>{if(S.dragFrom!==i)move(S.dragFrom,i);S.dragFrom=-1});boardEl.appendChild(c)}render()}
+function start(){S.board=Array(N*N).fill(0);S.score=0;S.combo=1;S.max=1;S.selected=-1;S.playing=true;panel.classList.add("hidden");spawn();spawn();render()}
+function tap(i){if(!S.playing)return;if(S.selected<0){if(S.board[i]){S.selected=i;hint.textContent="再点一个相邻同级方块来合成。"}render();return}if(S.selected===i){S.selected=-1;render();return}move(S.selected,i)}
+function move(a,b){if(!S.playing||a<0||b<0||a===b)return;const x=S.board[a],y=S.board[b];if(!x)return;if(!near(a,b)){S.selected=y?b:-1;hint.textContent="只能移动到相邻格。";render();return}if(!y){S.board[b]=x;S.board[a]=0;S.combo=1;after("移动了一格，继续找同级合成。");return}if(x===y){const n=x+1;S.board[b]=n;S.board[a]=0;S.max=Math.max(S.max,n);S.score+=n*18*S.combo;S.combo=Math.min(9,S.combo+1);pop(b);after(`合成 ${n} 级霓虹核心，连击 x${S.combo}`);return}S.selected=b;hint.textContent="等级不同，换一个目标。";render()}
+function after(msg){S.selected=-1;hint.textContent=msg;spawn();render();if(over())end()}
+function spawn(){const empty=S.board.map((v,i)=>v?-1:i).filter(i=>i>=0);if(!empty.length)return;S.board[empty[Math.floor(Math.random()*empty.length)]]=Math.random()>.86?2:1}
+function near(a,b){const ax=a%N,ay=Math.floor(a/N),bx=b%N,by=Math.floor(b/N);return Math.abs(ax-bx)+Math.abs(ay-by)===1}
+function over(){if(S.board.some(v=>v===0))return false;for(let i=0;i<S.board.length;i++){const r=i%N<N-1?i+1:-1,d=i+N<S.board.length?i+N:-1;if(r>=0&&S.board[i]===S.board[r])return false;if(d>=0&&S.board[i]===S.board[d])return false}return true}
+function end(){S.playing=false;if(S.score>S.best){S.best=S.score;localStorage.setItem(key,String(S.best))}panel.querySelector("h2").textContent="棋盘满了";panel.querySelector("p").textContent=`本局 ${S.score} 分，最高 ${S.max} 级。`;startBtn.textContent="再来";panel.classList.remove("hidden");render()}
+function render(){scoreEl.textContent=S.score;bestEl.textContent=S.best;comboEl.textContent=`x${S.combo}`;maxEl.textContent=String(S.max);[...boardEl.children].forEach((c,i)=>{const lv=S.board[i];c.className=`merge-cell${lv?" tile":""}${S.selected===i?" selected":""}`;c.textContent=lv?String(lv):"";if(lv){const color=colors[(lv-1)%colors.length];c.style.setProperty("--tile",color);c.style.setProperty("--glow",rgba(color,.55));c.setAttribute("aria-label",`${lv} 级方块`)}else{c.style.removeProperty("--tile");c.style.removeProperty("--glow");c.setAttribute("aria-label","空格")}})}
+function pop(i){const c=boardEl.children[i];if(!c)return;c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop")}
+function rgba(hex,a){const n=Number.parseInt(hex.slice(1),16);return `rgba(${n>>16&255}, ${n>>8&255}, ${n&255}, ${a})`}

@@ -4,12 +4,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#10141f">
-    <title>星轨闪避</title>
+    <title>小游戏大厅</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="shell">
-      <section class="game-wrap" aria-label="星轨闪避游戏">
+    <main class="shell" data-view="lobby">
+      <section id="lobby" class="lobby-screen" aria-label="小游戏大厅">
+        <div class="lobby-title">
+          <span>ARCADE POCKET</span>
+          <h1>小游戏大厅</h1>
+          <p>选一个进去玩，手机竖屏直接上手。</p>
+        </div>
+
+        <div class="game-cards">
+          <button class="game-card star-card" type="button" data-open-game="star">
+            <span class="card-kicker">射击 · Boss · 弹药栈</span>
+            <strong>星轨闪避</strong>
+            <em>拖动飞船，捡核心叠火力，BOOM 清屏打 Boss。</em>
+          </button>
+
+          <button class="game-card merge-card" type="button" data-open-game="merge">
+            <span class="card-kicker">合成 · 连锁 · 霓虹</span>
+            <strong>霓虹合成方块</strong>
+            <em>合并相邻同级能量块，做出更高等级的霓虹核心。</em>
+          </button>
+        </div>
+      </section>
+
+      <section id="starGame" class="game-wrap game-screen hidden" aria-label="星轨闪避游戏">
+        <button class="back-btn" type="button" data-back-lobby>大厅</button>
         <canvas id="game" width="720" height="1280"></canvas>
 
         <div class="hud" aria-live="polite">
@@ -44,8 +67,50 @@
           <button id="startBtn" type="button">开始</button>
         </div>
       </section>
+
+      <section id="mergeGame" class="merge-wrap game-screen hidden" aria-label="霓虹合成方块游戏">
+        <button class="back-btn" type="button" data-back-lobby>大厅</button>
+
+        <header class="merge-top">
+          <div>
+            <span class="label">分数</span>
+            <strong id="mergeScore">0</strong>
+          </div>
+          <div>
+            <span class="label">最佳</span>
+            <strong id="mergeBest">0</strong>
+          </div>
+          <button id="mergeRestart" class="icon-btn" type="button" aria-label="重开">↻</button>
+        </header>
+
+        <div class="merge-title">
+          <span>NEON MERGE</span>
+          <h1>霓虹合成方块</h1>
+          <p id="mergeHint">点一个方块，再点相邻同级方块合成。拖动也可以。</p>
+        </div>
+
+        <div id="mergeBoard" class="merge-board" aria-label="霓虹合成棋盘"></div>
+
+        <div class="merge-footer">
+          <div>
+            <span class="label">连击</span>
+            <strong id="mergeCombo">x1</strong>
+          </div>
+          <div>
+            <span class="label">最高</span>
+            <strong id="mergeMax">1</strong>
+          </div>
+        </div>
+
+        <div id="mergePanel" class="merge-panel">
+          <h2>霓虹合成方块</h2>
+          <p>合并相邻同级方块，连锁越多分越高。棋盘满且没有可合成时结束。</p>
+          <button id="mergeStart" type="button">开始</button>
+        </div>
+      </section>
     </main>
 
     <script src="game-v5.js?v=20260610-v5f"></script>
+    <script src="merge-game.js?v=20260611-merge1"></script>
   </body>
 </html>

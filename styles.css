@@ -68,6 +68,123 @@ canvas {
   height: 100%;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.lobby-screen,
+.merge-wrap {
+  position: relative;
+  width: min(100vw - 20px, 480px);
+  height: min(100dvh - 20px, 860px);
+  min-height: 560px;
+  overflow: hidden;
+  border: 4px solid #101015;
+  border-radius: 8px;
+  box-shadow: 0 18px 0 #0f0f15, 0 28px 70px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+.lobby-screen {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(37, 224, 177, 0.34), transparent 24%),
+    radial-gradient(circle at 82% 70%, rgba(255, 77, 109, 0.34), transparent 26%),
+    linear-gradient(145deg, #101021, #28173e 54%, #101015);
+}
+
+.lobby-title {
+  display: grid;
+  gap: 8px;
+  color: #fff8df;
+}
+
+.lobby-title span,
+.merge-title span,
+.card-kicker {
+  color: #25e0b1;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.lobby-title h1,
+.merge-title h1 {
+  margin: 0;
+  font-size: clamp(40px, 13vw, 62px);
+  line-height: 0.9;
+  text-shadow: 4px 4px 0 #ff4d6d, 7px 7px 0 #101015;
+}
+
+.lobby-title p,
+.merge-title p {
+  margin: 0;
+  color: rgba(255, 248, 223, 0.78);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.game-cards {
+  display: grid;
+  gap: 14px;
+}
+
+.game-card {
+  min-height: 150px;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+  padding: 18px;
+  text-align: left;
+  border: 4px solid #101015;
+  border-radius: 8px;
+  color: #101015;
+  box-shadow: 7px 7px 0 #101015;
+}
+
+.game-card strong {
+  font-size: clamp(28px, 9vw, 42px);
+  line-height: 0.95;
+}
+
+.game-card em {
+  font-style: normal;
+  color: #30243a;
+  line-height: 1.35;
+}
+
+.star-card {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255, 248, 223, 0.78), transparent 18%),
+    linear-gradient(135deg, #ffe06f, #25e0b1);
+  transform: rotate(-1deg);
+}
+
+.merge-card {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 77, 109, 0.62), transparent 20%),
+    linear-gradient(135deg, #b987ff, #53acff);
+  transform: rotate(1deg);
+}
+
+.back-btn {
+  position: absolute;
+  z-index: 8;
+  left: 12px;
+  bottom: 12px;
+  min-width: 68px;
+  min-height: 42px;
+  border: 3px solid #101015;
+  border-radius: 8px;
+  background: #fff8df;
+  color: #101015;
+  box-shadow: 4px 4px 0 #101015;
+  font-weight: 900;
+}
+
 .hud {
   position: absolute;
   top: 0;
@@ -79,6 +196,155 @@ canvas {
   align-items: center;
   padding: 12px;
   pointer-events: none;
+}
+
+.merge-wrap {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 12px;
+  padding: 12px;
+  background:
+    linear-gradient(transparent 95%, rgba(83, 172, 255, 0.16) 95%),
+    linear-gradient(90deg, transparent 95%, rgba(255, 77, 109, 0.13) 95%),
+    radial-gradient(circle at 20% 16%, rgba(37, 224, 177, 0.24), transparent 22%),
+    radial-gradient(circle at 80% 76%, rgba(185, 135, 255, 0.3), transparent 26%),
+    #101021;
+  background-size: auto, 28px 28px, auto, auto, auto;
+  color: #fff8df;
+}
+
+.merge-top,
+.merge-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 44px;
+  gap: 8px;
+  align-items: center;
+}
+
+.merge-footer {
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 58px;
+}
+
+.merge-top > div,
+.merge-footer > div {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 3px solid #101015;
+  border-radius: 8px;
+  background: #fff8df;
+  color: #101015;
+  box-shadow: 4px 4px 0 #101015;
+}
+
+.merge-top strong,
+.merge-footer strong {
+  display: block;
+  margin-top: 2px;
+  font-size: clamp(18px, 5vw, 24px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.merge-title {
+  display: grid;
+  gap: 6px;
+  padding: 4px 4px 0;
+}
+
+.merge-title h1 {
+  font-size: clamp(32px, 10vw, 48px);
+}
+
+.merge-board {
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 7px;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 10px;
+  border: 4px solid #101015;
+  border-radius: 8px;
+  background: rgba(255, 248, 223, 0.08);
+  box-shadow: inset 0 0 0 2px rgba(255, 248, 223, 0.1), 7px 7px 0 #101015;
+}
+
+.merge-cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  border: 2px dashed rgba(255, 248, 223, 0.2);
+  border-radius: 8px;
+  background: rgba(16, 16, 21, 0.58);
+  color: #fff8df;
+  font-size: clamp(17px, 6vw, 30px);
+  font-weight: 900;
+  touch-action: none;
+}
+
+.merge-cell.tile {
+  border: 3px solid #101015;
+  background: var(--tile, #25e0b1);
+  color: #101015;
+  box-shadow: 0 0 18px var(--glow, rgba(37, 224, 177, 0.45));
+}
+
+.merge-cell.selected {
+  transform: translateY(-3px);
+  outline: 4px solid #ffe06f;
+}
+
+.merge-cell.pop {
+  animation: tile-pop 180ms ease;
+}
+
+.merge-panel {
+  position: absolute;
+  inset: auto 18px 28px;
+  z-index: 4;
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 4px solid #101015;
+  border-radius: 8px;
+  background: #fff8df;
+  color: #101015;
+  box-shadow: 8px 8px 0 #101015;
+}
+
+.merge-panel.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.merge-panel h2 {
+  margin: 0;
+  font-size: clamp(30px, 9vw, 44px);
+  line-height: 0.95;
+}
+
+.merge-panel p {
+  margin: 0;
+  color: #4c3d33;
+  line-height: 1.45;
+}
+
+.merge-panel button {
+  min-height: 48px;
+  border: 3px solid #101015;
+  border-radius: 8px;
+  background: #25e0b1;
+  color: #101015;
+  box-shadow: 4px 4px 0 #101015;
+  font-weight: 900;
+}
+
+@keyframes tile-pop {
+  50% {
+    transform: scale(1.12) rotate(-2deg);
+  }
 }
 
 .hud > div {
@@ -272,5 +538,16 @@ canvas {
 
   .panel h1 {
     font-size: 30px;
+  }
+
+  .lobby-screen,
+  .merge-wrap {
+    min-height: 0;
+    height: calc(100dvh - 20px);
+  }
+
+  .merge-board {
+    gap: 5px;
+    padding: 8px;
   }
 }
